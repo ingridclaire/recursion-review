@@ -14,8 +14,25 @@ var stringifyJSON = function(obj) {
       result += `${thing}`;
     } else if ( typeof thing === 'string' ) {
       result += `"${thing}"`;
+    } else if ( typeof thing === 'function' ) {
+
+    } else if ( thing === undefined) {
+
     } else if (Array.isArray(thing)) {
       result += '[' + thing.map(element => addToString(element)) + ']';
+    } else if (typeof thing === 'object') {
+      let objectKeys = Object.keys(thing).length;
+      let i = 0;
+      for (var key in thing) {
+        result += `${key}:` + addToString(thing[key]);
+        if (i !== objectKeys - 1) {
+          result += ',';
+        }
+        i++;
+      }
+      result += thing[i];
     }
   };
+  addToString(obj);
+  return result;
 };
