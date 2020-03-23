@@ -6,8 +6,16 @@
 var stringifyJSON = function(obj) {
   let result = '';
   let addToString = function(thing) {
-    if ( typeof thing === 'number') {
+    if ( typeof thing === 'number' ) {
       result += `${thing}`;
+    } else if ( typeof thing === null ) {
+      result += 'null';
+    } else if ( typeof thing === 'boolean' ) {
+      result += `${thing}`;
+    } else if ( typeof thing === 'string' ) {
+      result += `"${thing}"`;
+    } else if (Array.isArray(thing)) {
+      result += '[' + thing.map(element => addToString(element)) + ']';
     }
   };
 };
