@@ -8,7 +8,7 @@ var stringifyJSON = function(obj) {
   let addToString = function(thing) {
     if ( typeof thing === 'number' ) {
       result += `${thing}`;
-    } else if ( typeof thing === null ) {
+    } else if ( thing === null ) {
       result += 'null';
     } else if ( typeof thing === 'boolean' ) {
       result += `${thing}`;
@@ -19,22 +19,34 @@ var stringifyJSON = function(obj) {
     } else if ( thing === undefined) {
 
     } else if (Array.isArray(thing)) {
-      result += '[' + thing.map(element => addToString(element)) + ']';
+      result += '[';
+      for (var i = 0; i < thing.length; i++) {
+        addToString(thing[i]);
+        if (i !== thing.length - 1) {
+          result += ',';
+        }
+      }
+      result += ']';
     } else if (typeof thing === 'object') {
       let objectKeys = Object.keys(thing).length;
       let i = 0;
+      result += '{';
       for (var key in thing) {
-        if (thing[key] !== undefined) {
-          result += `${key}:` + addToString(thing[key]);
+        if (typeof thing[key] !== 'undefined' &&
+          typeof thing[key] !== 'function') {
+          result += `"${key}"` + ':';
+          addToString(thing[key]);
           if (i !== objectKeys - 1) {
             result += ',';
           }
           i++;
         }
       }
-      result += thing[i];
+      result += '}';
     }
   };
   addToString(obj);
   return result;
 };
+
+
