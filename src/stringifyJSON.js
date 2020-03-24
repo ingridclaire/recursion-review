@@ -24,11 +24,13 @@ var stringifyJSON = function(obj) {
       let objectKeys = Object.keys(thing).length;
       let i = 0;
       for (var key in thing) {
-        result += `${key}:` + addToString(thing[key]);
-        if (i !== objectKeys - 1) {
-          result += ',';
+        if (thing[key] !== undefined) {
+          result += `${key}:` + addToString(thing[key]);
+          if (i !== objectKeys - 1) {
+            result += ',';
+          }
+          i++;
         }
-        i++;
       }
       result += thing[i];
     }
